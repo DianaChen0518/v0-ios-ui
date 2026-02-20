@@ -14,21 +14,8 @@ export const metadata: Metadata = {
   description: '青耕游 - 青年乡村旅游与志愿休平台，任务广场、文创商城、权益中心',
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/images/app-icon.jpg',
+    apple: '/images/app-icon.jpg',
   },
 }
 

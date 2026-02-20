@@ -110,9 +110,9 @@ export function ChevronLeft() {
   )
 }
 
-export function HeartIcon() {
+export function HeartIcon({ active = false }: { active?: boolean }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="#EF4444" stroke="none">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill={active ? "#EF4444" : "none"} stroke={active ? "#EF4444" : "#999"} strokeWidth="1.2">
       <path d="M7 12.5s-5.5-3.5-5.5-7A3 3 0 017 3.5a3 3 0 015.5 2c0 3.5-5.5 7-5.5 7z" />
     </svg>
   )
