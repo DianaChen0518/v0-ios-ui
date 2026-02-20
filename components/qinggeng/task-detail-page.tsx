@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft } from "./icons"
+import type { TaskData } from "./task-square-page"
 
 const flowSteps = [
   { icon: "clipboard", label: "报名" },
@@ -9,12 +11,6 @@ const flowSteps = [
   { icon: "execute", label: "执行" },
   { icon: "submit", label: "提交" },
   { icon: "check", label: "验收" },
-]
-
-const benefits = [
-  { icon: "bed", label: "免费食宿3天", color: "#3DBBA0" },
-  { icon: "coin", label: "获得300积分", color: "#F5C94C" },
-  { icon: "video", label: "优秀作品展播", color: "#5B8DEF" },
 ]
 
 function StepIcon({ type }: { type: string }) {
@@ -84,9 +80,30 @@ function BenefitIcon({ type }: { type: string }) {
 
 export default function TaskDetailPage({
   onBack,
+  task,
 }: {
   onBack?: () => void
+  task?: TaskData | null
 }) {
+  const [enrolled, setEnrolled] = useState(false)
+
+  // Fallback data if no task provided
+  const title = task?.title ?? "古村落短视频拍摄"
+  const image = task?.image ?? "/images/village1.jpg"
+  const level = task?.level ?? "进阶级"
+  const tag = task?.tag ?? "新媒体"
+  const deadline = task?.deadline ?? "2024.10.30"
+  const requirements = task?.requirements ?? [
+    "拍摄3条1分钟短视频",
+    "主题：古村落建筑与人文",
+    "成果要求：清晰度1080P",
+  ]
+  const benefitDetails = task?.benefitDetails ?? [
+    { icon: "bed", label: "免费食宿3天" },
+    { icon: "coin", label: "获得300积分" },
+    { icon: "video", label: "优秀作品展播" },
+  ]
+
   return (
     <div className="flex flex-col h-full bg-[#f5f5f5]">
       {/* Header */}
@@ -105,25 +122,25 @@ export default function TaskDetailPage({
         <div className="px-4 mt-4">
           <div className="relative h-48 rounded-2xl overflow-hidden">
             <Image
-              src="/images/village1.jpg"
-              alt="古村落短视频拍摄"
+              src={image}
+              alt={title}
               fill
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#000]/60 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4">
               <h2 className="text-[#fff] font-bold text-xl mb-2">
-                古村落短视频拍摄
+                {title}
               </h2>
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-xs px-2 py-0.5 rounded bg-[#3DBBA0] text-[#fff]">
-                  进阶级
+                  {level}
                 </span>
                 <span className="text-xs px-2 py-0.5 rounded bg-[#3DBBA0] text-[#fff]">
-                  新媒体
+                  {tag}
                 </span>
               </div>
-              <p className="text-[#fff]/80 text-xs">截止时间：2024.10.30</p>
+              <p className="text-[#fff]/80 text-xs">{"截止时间："}{deadline}</p>
             </div>
           </div>
         </div>
@@ -132,9 +149,9 @@ export default function TaskDetailPage({
         <div className="px-4 mt-5">
           <h3 className="text-[#333] font-bold text-base mb-2">任务需求</h3>
           <div className="text-[#666] text-sm leading-relaxed">
-            <p>拍摄3条1分钟短视频</p>
-            <p>主题：古村落建筑与人文</p>
-            <p>成果要求：清晰度1080P</p>
+            {requirements.map((req, i) => (
+              <p key={i}>{req}</p>
+            ))}
           </div>
         </div>
 
@@ -162,11 +179,13 @@ export default function TaskDetailPage({
         <div className="px-4 mt-5 pb-24">
           <h3 className="text-[#333] font-bold text-base mb-4">参与权益</h3>
           <div className="flex items-start justify-around">
-            {benefits.map((benefit) => (
+            {benefitDetails.map((benefit) => (
               <div key={benefit.label} className="flex flex-col items-center gap-2">
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ backgroundColor: `${benefit.color}15` }}
+                  style={{
+                    backgroundColor: benefit.icon === "bed" ? "#E8F8F515" : benefit.icon === "coin" ? "#FFF8E1" : "#EEF2FF",
+                  }}
                 >
                   <BenefitIcon type={benefit.icon} />
                 </div>
@@ -179,8 +198,15 @@ export default function TaskDetailPage({
 
       {/* Bottom CTA */}
       <div className="px-4 py-3 bg-[#fff] border-t border-[#f0f0f0]">
-        <button className="w-full bg-[#3DBBA0] text-[#fff] font-semibold text-base py-3 rounded-xl">
-          立即报名
+        <button
+          onClick={() => setEnrolled(!enrolled)}
+          className={`w-full font-semibold text-base py-3 rounded-xl transition-all ${
+            enrolled
+              ? "bg-[#f0f0f0] text-[#999]"
+              : "bg-[#3DBBA0] text-[#fff]"
+          }`}
+        >
+          {enrolled ? "已报名，取消报名" : "立即报名"}
         </button>
       </div>
     </div>
