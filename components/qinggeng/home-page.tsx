@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { AppLogo, ChevronRight } from "./icons"
+import { ChevronRight } from "./icons"
 
 const travelItems = [
   { name: "XX古村落三日游", price: 199, image: "/images/village1.jpg" },
@@ -25,7 +25,13 @@ export default function HomePage() {
       {/* Header */}
       <div className="bg-[#3DBBA0] px-4 pt-2 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <AppLogo className="w-8 h-8" />
+          <Image
+            src="/images/app-icon.jpg"
+            alt="青耕游"
+            width={32}
+            height={32}
+            className="w-8 h-8 rounded-lg"
+          />
           <span className="text-[#fff] font-semibold text-lg">青耕游</span>
         </div>
         <div className="w-8 h-8 rounded-full bg-[#fff]/30 flex items-center justify-center">
